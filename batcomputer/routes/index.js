@@ -12,11 +12,11 @@ router.get('/example', (req, res) => {
 });
 
 router.get('/', controller.homePage);
-
+router.post('/add', controller.createStore)
 
 
 router.get('/hello', (req, res) => {
-  res.render('hello', {name: 'benajmin'})
+  res.render('editStore', {name: 'benajmin'})
 });
 
 module.exports = router;
