@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/storeController')
+const { catchErrors } = require('../handlers/errorHandlers')
 
 // Do work here
 router.get('/example', (req, res) => {
@@ -11,9 +12,12 @@ router.get('/example', (req, res) => {
   res.send(`Hey! It works ${req.query.name}`);
 });
 
-router.get('/', controller.homePage);
-router.post('/add', controller.createStore)
+router.get('/', catchErrors(controller.getStores));
+router.get('/stores', catchErrors(controller.getStores));
 
+router.post('/add', catchErrors(controller.createStore))
+router.post('/add/:id', catchErrors(controller.updateStore))
+router.get('/stores/:id/edit', catchErrors(controller.editStore))
 
 router.get('/hello', (req, res) => {
   res.render('editStore', {name: 'benajmin'})
