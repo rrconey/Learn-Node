@@ -15,11 +15,21 @@ router.get('/example', (req, res) => {
 router.get('/', catchErrors(controller.getStores));
 router.get('/stores', catchErrors(controller.getStores));
 
-router.post('/add', catchErrors(controller.createStore))
-router.post('/add/:id', catchErrors(controller.updateStore))
+router.post('/add', 
+  controller.upload,
+  catchErrors(controller.resize),
+  catchErrors(controller.createStore)
+)
+
+router.post('/add/:id', 
+  controller.upload,
+  catchErrors(controller.resize),
+  catchErrors(controller.updateStore)
+)
+
 router.get('/stores/:id/edit', catchErrors(controller.editStore))
 
-router.get('/hello', (req, res) => {
+router.get('/add', (req, res) => {
   res.render('editStore', {name: 'benajmin'})
 });
 
