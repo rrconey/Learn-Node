@@ -24,7 +24,6 @@ exports.resize = async (req,res,next) => {
         next()
         return
     }
-    console.log(req.file)
     const extension = req.file.mimetype.split('/')[1]
     req.body.photo = `${uuid.v4()}.${extension}`
     
@@ -39,9 +38,20 @@ exports.resize = async (req,res,next) => {
 
 
 exports.homePage = (req, res) => {
-    console.log(req.name);
-    res.render('hello');
+    // console.log(req.name);
+    // res.render('hello');
+    res.json({name: 'me'})
+
 };
+
+exports.displayStore = (req,res) => {
+    const {store}  = req.params
+    res.render('store', {store})
+}
+
+exports.renderStore = (req,res) => {
+    res.render('hello')
+}
 
 exports.addStore = (req,res) => {
     res.render('editStore', {title: 'Add Store'})
