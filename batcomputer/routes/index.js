@@ -15,6 +15,9 @@ router.get('/example', (req, res) => {
 router.get('/', catchErrors(controller.getStores));
 router.get('/stores', catchErrors(controller.getStores));
 router.get('/stores/:store', controller.displayStore);
+router.get('/tags', controller.tags)
+router.get('/tags/:tag', controller.tags)
+
 
 router.post('/add', 
   controller.upload,

@@ -56,6 +56,12 @@ exports.displayStore = async (req,res, next) => {
     
 }
 
+exports.tags = async (req,res,next) => {
+    const tags = await Store.getTagsList()
+    const tagg = req.params.tag
+    res.render('tags', {tags, title: 'Tags', tagg})
+}
+
 exports.renderStore = (req,res) => {
     res.render('hello')
 }
