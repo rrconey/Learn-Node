@@ -44,9 +44,16 @@ exports.homePage = (req, res) => {
 
 };
 
-exports.displayStore = (req,res) => {
-    const {store}  = req.params
-    res.render('store', {store})
+exports.displayStore = async (req,res, next) => {
+    const slug  = req.params.store
+    const store = await Store.findOne({slug})
+    const lat = store.location.coordinates[0]
+    const lng = store.location.coordinates[1]
+    if(!store) {
+        return next()
+    } 
+    res.render('store', {store, title: store.name, lat, lng})
+    
 }
 
 exports.renderStore = (req,res) => {
