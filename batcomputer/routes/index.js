@@ -23,14 +23,28 @@ router.get('/tags/:tag', storeController.tags)
 router.get('/login', userController.logingForm)
 router.get('/register', userController.registerForm)
 router.get('/logout', authController.logout)
+router.get('/stores/:id/edit', catchErrors(storeController.editStore))
+router.get('/add', authController.isLoggedIn, storeController.addStore);
+router.get('/account', authController.isLoggedIn, userController.account)
+router.get('/account/reset/:token', catchErrors(authController.reset))
+
 router.post('/login', authController.login)
+
+router.post('/account/reset/:token', 
+  authController.confirmedPasswords, 
+  catchErrors(authController.update)
+)
+
+router.post('/account', catchErrors(userController.updateAccount))
+
+router.post('/account/forgot', catchErrors(authController.forgot))
+
 
 router.post('/register', 
 userController.validateRegister,
 userController.register,
 authController.login
 )
-
 
 router.post('/add', 
   storeController.upload,
@@ -43,9 +57,5 @@ router.post('/add/:id',
   catchErrors(storeController.resize),
   catchErrors(storeController.updateStore)
 )
-
-router.get('/stores/:id/edit', catchErrors(storeController.editStore))
-
-router.get('/add', authController.isLoggedIn, storeController.addStore);
 
 module.exports = router;

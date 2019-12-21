@@ -19,7 +19,9 @@ const userSchema = new Schema({
         unique: true,
         trim: true,
         validate: [validator.isEmail, 'Invalid email address']
-    },
+    }, 
+    resetPasswordToken: String,
+    resetPasswordExpires: Date
 });
 
 userSchema.virtual('gravatar').get(()=> {
