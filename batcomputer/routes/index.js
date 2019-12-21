@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../controllers/storeController')
+const storeController = require('../controllers/storeController')
+const userController = require('../controllers/userController')
+const authController = require('../controllers/authController')
+
 const { catchErrors } = require('../handlers/errorHandlers')
 
 // Do work here
@@ -12,26 +15,34 @@ router.get('/example', (req, res) => {
   res.send(`Hey! It works ${req.query.name}`);
 });
 
-router.get('/', catchErrors(controller.getStores));
-router.get('/stores', catchErrors(controller.getStores));
-router.get('/stores/:store', controller.displayStore);
-router.get('/tags', controller.tags)
-router.get('/tags/:tag', controller.tags)
+router.get('/', catchErrors(storeController.getStores));
+router.get('/stores', catchErrors(storeController.getStores));
+router.get('/stores/:store', storeController.displayStore);
+router.get('/tags', storeController.tags)
+router.get('/tags/:tag', storeController.tags)
+router.get('/login', userController.logingForm)
+router.get('/register', userController.registerForm)
+
+router.post('/register', 
+userController.validateRegister,
+userController.register,
+authController.login
+)
 
 
 router.post('/add', 
-  controller.upload,
-  catchErrors(controller.resize),
-  catchErrors(controller.createStore)
+  storeController.upload,
+  catchErrors(storeController.resize),
+  catchErrors(storeController.createStore)
 )
 
 router.post('/add/:id', 
-  controller.upload,
-  catchErrors(controller.resize),
-  catchErrors(controller.updateStore)
+  storeController.upload,
+  catchErrors(storeController.resize),
+  catchErrors(storeController.updateStore)
 )
 
-router.get('/stores/:id/edit', catchErrors(controller.editStore))
+router.get('/stores/:id/edit', catchErrors(storeController.editStore))
 
 router.get('/add', (req, res) => {
   res.render('editStore', {name: 'benajmin'})
