@@ -46,7 +46,7 @@ exports.homePage = (req, res) => {
 
 exports.displayStore = async (req,res, next) => {
     const slug  = req.params.store
-    const store = await Store.findOne({slug})
+    const store = await (await Store.findOne({slug})).populate('author')
     const lat = store.location.coordinates[0]
     const lng = store.location.coordinates[1]
     if(!store) {
@@ -74,6 +74,7 @@ exports.addStore = (req,res) => {
 }
 
 exports.createStore = async (req,res) => {
+    req.body.author = req.user._id
     const store = await(new Store(req.body)).save()
     req.flash('success', `Successfully created ${store.name}`)
     res.redirect(`/store/${store.slug}`)
@@ -84,9 +85,17 @@ exports.getStores = async (req,res) => {
     res.render('stores', {title: 'Stores page', stores})
 }
 
+const confirmOwner = (store,user) => {
+    if(!store.author.equals(user.id)) {
+        throw Error('must own a store to edit')
+    }
+}
+
 exports.editStore = async (req, res) => {
     const { id } = req.params
     const store = await Store.findOne({_id: id})
+
+    confirmOwner(store, req.user)
     res.render('editStore', {title: `Edit ${store.slug}`, store});
 };
 

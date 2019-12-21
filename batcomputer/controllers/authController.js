@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const User = mongoose.model('User')
 const crypto = require('crypto')
 const promisify = require('es6-promisify')
+const mail = require('../handlers/mail')
 
 const config = {
     failureRedirect: '/login',
@@ -42,6 +43,13 @@ exports.forgot = async (req, res, next) => {
     await user.save();
 
     const resetURL = `http://${req.headers.host}/account/reset/${user.resetPasswordToken}`
+    await mail.send({
+        user,
+        subject: 'Password reset',
+        resetURL,
+        filename: 'password-reset'
+    })
+
     req.flash('success', `this is your reset ${resetURL}`)
 
     res.redirect('/login')
