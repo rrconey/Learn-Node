@@ -22,6 +22,8 @@ router.get('/tags', storeController.tags)
 router.get('/tags/:tag', storeController.tags)
 router.get('/login', userController.logingForm)
 router.get('/register', userController.registerForm)
+router.get('/logout', authController.logout)
+router.post('/login', authController.login)
 
 router.post('/register', 
 userController.validateRegister,
@@ -44,8 +46,6 @@ router.post('/add/:id',
 
 router.get('/stores/:id/edit', catchErrors(storeController.editStore))
 
-router.get('/add', (req, res) => {
-  res.render('editStore', {name: 'benajmin'})
-});
+router.get('/add', authController.isLoggedIn, storeController.addStore);
 
 module.exports = router;
