@@ -27,6 +27,7 @@ router.get('/stores/:id/edit', catchErrors(storeController.editStore))
 router.get('/add', authController.isLoggedIn, storeController.addStore);
 router.get('/account', authController.isLoggedIn, userController.account)
 router.get('/account/reset/:token', catchErrors(authController.reset))
+router.get('/store/:slug', catchErrors(storeController.getStoreBySlug));
 
 router.post('/login', authController.login)
 

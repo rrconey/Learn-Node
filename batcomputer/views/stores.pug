@@ -3,7 +3,8 @@ extends layout
 include mixins/_storeCard
 
 block content
-  h1 welcome to the #{title}
-  .stores
-    each store in stores
-      +storeCard(store)
+  .inner
+    h2 welcome to the #{title}
+    .stores
+      each store in stores
+        +storeCard(store)
