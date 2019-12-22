@@ -126,3 +126,22 @@ exports.getStoreBySlug = async (req, res, next) => {
     if (!store) return next();
     res.render('store', { store, title: store.name });
   };
+
+exports.mapStores = async (req, res) => {
+    const { lat,lng } = req.query
+    const coordinates = [Number(lng), Number(lat)]
+    const q = {
+        location: {
+            $near: {
+                $geometry: {
+                    type: 'Point',
+                    coordinates
+                },
+                $maxDistance: 10000 //10km or 6.21371 miles
+            }
+        }
+    }
+
+    const stores = await Store.find().select('photo name slug description location').limit(10)
+    res.json(stores)
+}

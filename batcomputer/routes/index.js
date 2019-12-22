@@ -29,6 +29,9 @@ router.get('/account', authController.isLoggedIn, userController.account)
 router.get('/account/reset/:token', catchErrors(authController.reset))
 router.get('/store/:slug', catchErrors(storeController.getStoreBySlug));
 
+router.get('/api/stores/near', catchErrors(storeController.mapStores))
+
+
 router.post('/login', authController.login)
 
 router.post('/account/reset/:token', 
