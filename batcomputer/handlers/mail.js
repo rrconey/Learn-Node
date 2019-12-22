@@ -13,13 +13,13 @@ const transport = nodemailer.createTransport({
     }
 })
 
-transport.sendMail({
-    from: 'Roscoe <rrconey@gmail.com',
-    to: 'pizza@SpeechGrammarList.com',
-    subject: 'payment is owed',
-    html: 'Hey where is my <strong>money</strong>!',
-    text: '????'
-});
+// transport.sendMail({
+//     from: 'Roscoe <rrconey@gmail.com',
+//     to: 'pizza@SpeechGrammarList.com',
+//     subject: 'payment is owed',
+//     html: 'Hey where is my <strong>money</strong>!',
+//     text: '????'
+// });
 
 const generateHTML = (filename, options={}) => {
     const html = pug.renderFile(`${__dirname}/../views/email/${filename}.pug`, options)

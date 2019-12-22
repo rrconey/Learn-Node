@@ -106,3 +106,17 @@ exports.updateStore = async (req, res) => {
 
     res.redirect(`/stores/${store._id}/edit`);
 };
+
+exports.searchStores = async (req, res) => {
+    const stores = await Store.find({
+        $text: {
+            $search: req.query.q
+        } 
+    }, {
+        score: {$meta: 'textScore'}
+    }).sort({
+        score: { $meta: 'textScore' }
+    })
+    .limit(5)
+    res.json(stores)
+}

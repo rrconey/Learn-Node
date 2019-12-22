@@ -58,4 +58,10 @@ router.post('/add/:id',
   catchErrors(storeController.updateStore)
 )
 
+/* 
+API ENPOINTS
+*/
+
+router.get('/api/search', catchErrors(storeController.searchStores))
+
 module.exports = router;
