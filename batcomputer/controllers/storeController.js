@@ -80,10 +80,30 @@ exports.createStore = async (req,res) => {
     res.redirect(`/store/${store.slug}`)
 }
 
-exports.getStores = async (req,res) => {
-    const stores = await Store.find()
-    res.render('stores', {title: 'Stores page', stores})
-}
+exports.getStores = async (req, res) => {
+    const page = req.params.page || 1;
+    const limit = 4;
+    const skip = (page * limit) - limit;
+  
+    // 1. Query the database for a list of all stores
+    const storesPromise = Store
+      .find()
+      .skip(skip)
+      .limit(limit)
+      .sort({ created: 'desc' });
+  
+    const countPromise = Store.count();
+  
+    const [stores, count] = await Promise.all([storesPromise, countPromise]);
+    const pages = Math.ceil(count / limit);
+    if (!stores.length && skip) {
+      req.flash('info', `You asked for page ${page}. But that doesn't exist. So I put you on page ${pages}`);
+      res.redirect(`/stores/page/${pages}`);
+      return;
+    }
+  
+    res.render('stores', { title: 'Stores page', stores, page, pages, count });
+  };
 
 const confirmOwner = (store,user) => {
     if(!store.author.equals(user.id)) {
@@ -122,7 +142,7 @@ exports.searchStores = async (req, res) => {
 }
 
 exports.getStoreBySlug = async (req, res, next) => {
-    const store = await Store.findOne({ slug: req.params.slug }).populate('author');
+    const store = await Store.findOne({ slug: req.params.slug }).populate('author reviews');
     if (!store) return next();
     res.render('store', { store, title: store.name });
   };
@@ -160,4 +180,7 @@ exports.getHearts = async() => {
     res.render('stores', {title:'hearted stores', stores})
 }
 
-
+exports.getTopStores = async (req, res) => {
+    const stores = await Store.getTopStores();
+    res.render('topStores', { stores, title:'⭐ Top Stores!'});
+}

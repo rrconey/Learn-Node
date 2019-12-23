@@ -18,6 +18,7 @@ router.get('/example', (req, res) => {
 
 router.get('/', catchErrors(storeController.getStores));
 router.get('/stores', catchErrors(storeController.getStores));
+router.get('/stores/page/:page', catchErrors(storeController.getStores));
 router.get('/stores/:store', storeController.displayStore);
 router.get('/tags', storeController.tags)
 router.get('/tags/:tag', storeController.tags)
@@ -31,7 +32,7 @@ router.get('/account/reset/:token', catchErrors(authController.reset))
 router.get('/store/:slug', catchErrors(storeController.getStoreBySlug));
 router.get('/hearts', authController.isLoggedIn, catchErrors( storeController.getHearts))
 router.get('/api/stores/near', catchErrors(storeController.mapStores))
-
+router.get('/top', catchErrors(storeController.getTopStores))
 router.get('/map', storeController.mapPage)
 
 router.post('/login', authController.login)

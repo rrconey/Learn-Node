@@ -18,7 +18,7 @@ mongoose.connection.on('error', (err) => {
 });
 
 // READY?! Let's go!
-require('./models/store')
+require('./models/Store')
 require('./models/User')
 require('./models/Review')
 
