@@ -28,9 +28,10 @@ router.get('/add', authController.isLoggedIn, storeController.addStore);
 router.get('/account', authController.isLoggedIn, userController.account)
 router.get('/account/reset/:token', catchErrors(authController.reset))
 router.get('/store/:slug', catchErrors(storeController.getStoreBySlug));
-
+router.get('/hearts', authController.isLoggedIn, catchErrors( storeController.getHearts))
 router.get('/api/stores/near', catchErrors(storeController.mapStores))
 
+router.get('/map', storeController.mapPage)
 
 router.post('/login', authController.login)
 
