@@ -20,6 +20,8 @@ exports.icon = (name) => fs.readFileSync(`./public/images/icons/${name}.svg`);
 // Some details about the site
 exports.siteName = `Now That's Delicious!`;
 
+exports.gravatar = (hash) => `https://s.gravatar.com/avatar/${hash}?s=200`;
+
 exports.menu = [
   { slug: '/stores', title: 'Stores', icon: 'store', },
   { slug: '/tags', title: 'Tags', icon: 'tag', },

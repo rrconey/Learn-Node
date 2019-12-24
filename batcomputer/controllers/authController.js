@@ -16,7 +16,7 @@ exports.login = passport.authenticate('local', config)
 
 exports.logout = (req,res) => {
     req.logout()
-    req.flash('success', 'goodbye for now...')
+    // req.flash('success', 'goodbye for now...')
     res.redirect('/')
 }
 
@@ -24,7 +24,7 @@ exports.isLoggedIn = (req,res, next) => {
     if(req.isAuthenticated()) {
         return next()
     }
-    req.flash('error', 'please login')
+    req.flash('error', 'please login to add a store!')
     res.redirect('/login')
 }
 

@@ -21,12 +21,15 @@ const userSchema = new Schema({
         validate: [validator.isEmail, 'Invalid email address']
     }, 
     resetPasswordToken: String,
-    resetPasswordExpires: Date
+    resetPasswordExpires: Date,
+    hashy: {
+        type: String
+    }
 });
 
 userSchema.virtual('gravatar').get(()=> {
     const hash = md5(this.email)
-    return `https://gravatar.com/avatar/${hash}?s=200`
+    return (`https://s.gravatar.com/avatar/${hash}?s=200`)
 })
 
 userSchema.plugin(passportLocalMongoose,{usernameField: 'email'})
